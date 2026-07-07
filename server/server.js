@@ -26,6 +26,9 @@ app.use(cors())
 app.use(express.json())
 app.use(multer().none())
 
+app.get("/", (req, res) => {
+    res.send("EMS server is running");
+});
 
 // Routes
 app.use("/api/employees", employeesRouter);
