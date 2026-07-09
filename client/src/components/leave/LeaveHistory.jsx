@@ -1,13 +1,24 @@
 import { format } from "date-fns"
 import { Check, Loader2, X } from "lucide-react"
 import { useState } from "react"
+import { toast } from "sonner"
+import api from "../../api/axios"
 
 
 const LeaveHistory = ({leaves, isAdmin, onUpdate}) => {
 
     const [processing, setProcessing] = useState(null)
+    //Kết nối backend
     const handleStatusUpdate = async (id, status) => {
         setProcessing(id)
+        try {
+            await api.patch(`/leaves/${id}`, {status})
+            onUpdate();
+        } catch (error) {
+            toast.error(error?.response?.data?.error || error?.message)
+        } finally{
+            setProcessing(null)
+        }
     }
 
   return (

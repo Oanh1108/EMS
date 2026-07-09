@@ -1,5 +1,7 @@
 import { CalendarDays, FileText, Loader2, Send, X } from "lucide-react";
 import { useState } from "react"
+import { toast } from "sonner";
+import api from "../../api/axios";
 
 const ApplyLeaveModal = ({open, onClose, onSuccess}) => {
   
@@ -9,8 +11,22 @@ const ApplyLeaveModal = ({open, onClose, onSuccess}) => {
   tomorrow.setDate(today.getDate() + 1);
   const minDate = tomorrow.toISOString().split('T')[0];
 
+  //Kết nối với backend
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true)
+    const formData = new FormData(e.currentTarget)
+    const data = Object.fromEntries(formData.entries())
+
+    try {
+      await api.post('/leaves', data)
+      onSuccess();
+      onClose();
+    } catch (error) {
+      toast.error(error.response?.data?.error || error?.message)
+    } finally {
+      setLoading(false)
+    }
   }
 
   if(!open) return null;
@@ -87,8 +103,8 @@ const ApplyLeaveModal = ({open, onClose, onSuccess}) => {
               Cancel
             </button>
 
-            <button type="button" className="btn-primary flex items-center justify-center gap-1 flex-1"
-            onClick={onClose} disabled={loading}>
+            <button type="submit" className="btn-primary flex items-center justify-center gap-1 flex-1"
+             disabled={loading}>
               {loading ? <Loader2 className="w-4 h-4 animate-spin"/>
               : <Send className="w-4 h-4"/>}
               {loading ? "Submitting..." : "Submit"}

@@ -18,7 +18,7 @@ import { serve } from "inngest/express";
 import { inngest, functions } from "./inngest/index.js"
 
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 5000;
 
 
 // Middleware

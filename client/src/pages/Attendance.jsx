@@ -4,17 +4,26 @@ import Loading from '../components/Loading'
 import CheckinButton from '../components/Attendance/CheckinButton';
 import AttendanceStats from '../components/Attendance/AttendanceStats';
 import AttendanceHistory from '../components/Attendance/AttendanceHistory';
+import api from '../api/axios'
+import {toast} from 'sonner'
 
 const Attendance = () => {
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isDeleted, setIsDeleted] = useState(false);
-
+ 
+  //kết nối backend
   const fetchData = useCallback(async () => {
-    setHistory(dummyAttendanceData);
-    setTimeout(() => {
+    try {
+      const res = await api.get('/attendance');
+      const json = res.data;
+      setHistory(json.data || [])
+      if(json.employee?.isDeleted) setIsDeleted(true)
+    } catch (error) {
+      toast.error(error?.response?.data?.error || error?.message)
+    } finally{
       setLoading(false)
-    }, 1000)
+    }
   }, [])
 
   useEffect(() => {
