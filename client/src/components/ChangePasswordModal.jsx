@@ -21,6 +21,7 @@ const ChangePasswordModal = ({open, onClose}) => {
             if(!data.success) throw new Error(data.error || "Failed") 
                 setMessage({type: 'success', text:'Password updated successfully'})
                 e.target.reset();
+                setTimeout(onClose, 1500);
         } catch (error) {
             setMessage({type: 'error', text: error.message})
         } finally{
@@ -77,7 +78,7 @@ const ChangePasswordModal = ({open, onClose}) => {
                     <button type='button' onClick={onClose} className='btn-secondary flex-1'>
                         Cancel
                     </button>
-                     <button type='submit' disabled={loading} onClick={onClose} 
+                     <button type='submit' disabled={loading} 
                      className='btn-primary flex justify-center items-center flex-1'>
                         {loading && <Loader2Icon className='w-4 h-4 animate-spin'/>}
                         Update Password
