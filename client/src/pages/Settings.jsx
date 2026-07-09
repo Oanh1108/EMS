@@ -40,7 +40,7 @@ const Settings = () => {
         <p className='page-subtitle'>Manage your account and preferences</p>
       </div>
 
-      {profile && <p><ProfileForm initialData={profile} onSuccess={fetchProfile}/></p>}
+      {profile && <ProfileForm initialData={profile} onSuccess={fetchProfile}/>}
 
       {/* Change password trigger */}
       <div className='card max-w-md p-6 flex items-center justify-between'>
