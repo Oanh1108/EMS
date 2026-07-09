@@ -1,5 +1,5 @@
 import React from 'react'
-import { Outlet } from 'react-router'
+import { Outlet, Navigate } from 'react-router'
 import Sidebar from '../components/Sidebar'
 import { useAuth } from '../context/AuthContext'
 import Loading from '../components/Loading'
